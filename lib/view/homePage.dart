@@ -3,7 +3,7 @@ import 'package:coffee_journey/view/card.dart';
 import 'package:coffee_journey/view/form.dart';
 import 'package:coffee_journey/view/idCard.dart';
 import 'package:coffee_journey/models/data.dart';
-import 'package:coffee_journey/models/database_helper.dart';
+import 'package:coffee_journey/repository/database_provider.dart';
 import 'package:coffee_journey/view/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,25 +12,22 @@ import 'package:sqflite/sqflite.dart';
 class Home extends StatefulWidget {
 
 	@override
-  State<StatefulWidget> createState() {
-
-    return HomeState();
-  }
+  _HomeState createState() => _HomeState();
 }
 
-class HomeState extends State<Home> {
+class _HomeState extends State<Home> {
 
-	DatabaseHelper databaseHelper = DatabaseHelper();
-	List<Data> dataList;
-	int count = 0;
+	//DatabaseHelper databaseHelper = DatabaseHelper();
+	//List<Data> dataList;
+	//int count = 0;
 
 	@override
   Widget build(BuildContext context) {
 
-		if (dataList == null) {
-			dataList = List<Data>();
-			updateListView();
-		}
+		//if (dataList == null) {
+		//	dataList = List<Data>();
+		//	updateListView();
+		//}
 
     return Scaffold(
 
@@ -72,7 +69,35 @@ class HomeState extends State<Home> {
           Expanded(
             child: Container(
               width: double.infinity,
-              child: getHomeView()
+              child: FutureBuilder<List<Data>>(
+                future: DatabaseProvider().getData(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData == false) {
+                    return Center(child: CircularProgressIndicator());
+                  }else{
+                    return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, i) {
+                        return Stack(
+                          children: <Widget>[
+                            Line(), 
+                            Timeline(), 
+                            Card1(
+                              judul: snapshot.data[i].judul,
+                              journal: snapshot.data[i].jurnal,
+                              rating: snapshot.data[i].rating,
+                              tanggal: snapshot.data[i].tanggal,
+                              img: //listInput[reverse(listInput.length, i)].img == null
+                              Image.asset('assets/coffeeHeader.jpg', fit: BoxFit.cover,) //?
+                              //: Image.file(listInput[reverse(listInput.length, i)].img, fit: BoxFit.cover),
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+              )
             ),
             flex: 4,
           )
@@ -81,7 +106,7 @@ class HomeState extends State<Home> {
 
 	    floatingActionButton: FloatingActionButton(
 		    onPressed: () {
-		      navigateToDetail(Data('', '', 2), 'Add Note');
+		      navigateToDetail();
 		    },
         backgroundColor: Colors.brown,
 		    child: Icon(Icons.add),
@@ -95,53 +120,8 @@ class HomeState extends State<Home> {
     return balik;
   }
 
-  ListView getHomeView() {
-
-		return ListView.builder(
-			itemCount: count,
-			itemBuilder: (BuildContext context, int i) {
-				return Stack(
-          children: <Widget>[
-            Line(), 
-            Timeline(), 
-            Card1(
-              judul: this.dataList[reverse(count, i)].juduls,
-              journal: this.dataList[reverse(count, i)].journals,//listInput[reverse(listInput.length, i)].journal,
-              rating: this.dataList[reverse(count, i)].ratings,//listInput[reverse(listInput.length, i)].rating,
-              tanggal: this.dataList[reverse(count, i)].tanggals,//listInput[reverse(listInput.length, i)].tanggal,
-              img: //listInput[reverse(listInput.length, i)].img == null
-               Image.asset('assets/coffeeHeader.jpg', fit: BoxFit.cover,) //?
-              //: Image.file(listInput[reverse(listInput.length, i)].img, fit: BoxFit.cover),
-            )
-          ],
-        );
-			},
-		);
-  }
-
-  void navigateToDetail(Data data, String title) async {
-	  bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-		  return FormList(data);
-	  }));
-
-	  if (result == true) {
-	  	updateListView();
-	  }
-  }
-
-  void updateListView() {
-
-		final Future<Database> dbFuture = databaseHelper.initializeDatabase();
-		dbFuture.then((database) {
-
-			Future<List<Data>> dataListFuture = databaseHelper.getdataList();
-			dataListFuture.then((dataList) {
-				setState(() {
-				  this.dataList = dataList;
-				  this.count = dataList.length;
-				});
-			});
-		});
+  void navigateToDetail() async {
+	  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList()));
   }
 }
 

@@ -1,71 +1,45 @@
+// To parse this JSON data, do
+//
+//     final data = dataFromJson(jsonString);
 
-class DataInput{
-  String judul;
-  String journal;
-  int rating;
-  String tanggal;
-  //File img;
-}
+import 'dart:convert';
+
+Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
+String dataToJson(Data data) => json.encode(data.toJson());
 
 class Data {
+    int id;
+    String judul;
+    String jurnal;
+    int rating;
+    String tanggal;
+    String image;
 
-	int id;
-	String judul;
-	String journal;
-	String tanggal;
-	int rating;
+    Data({
+        this.id,
+        this.judul,
+        this.jurnal,
+        this.rating,
+        this.tanggal,
+        this.image,
+    });
 
-	Data(this.judul, this.tanggal, this.rating, [this.journal]);
+    factory Data.fromJson(Map<String, dynamic> json) => new Data(
+        id: json["id"] == null ? null : json["id"],
+        judul: json["judul"] == null ? null : json["judul"],
+        jurnal: json["jurnal"] == null ? null : json["jurnal"],
+        rating: json["rating"] == null ? null : json["rating"],
+        tanggal: json["tanggal"] == null ? null : json["tanggal"],
+        image: json["image"] == null ? null : json["image"],
+    );
 
-	Data.withId(this.id, this.judul, this.tanggal, this.rating, [this.journal]);
-
-	int get ids => id;
-
-	String get juduls => judul;
-
-	String get journals => journal;
-
-	int get ratings => rating;
-
-	String get tanggals => tanggal;
-
-	set juduls(String newTitle) {
-		this.judul = newTitle;
-	}
-
-	set journals(String newDescription) {
-		this.journal = newDescription;
-	}
-
-	set ratings(int newPriority) {
-		this.rating = newPriority;
-	}
-
-	set tanggals(String newDate) {
-		this.tanggal = newDate;
-	}
-
-	// Convert object menjadi Map object
-	Map<String, dynamic> toMap() {
-
-		var map = Map<String, dynamic>();
-		if (ids != null) {
-			map['id'] = id;
-		}
-		map['judul'] = judul;
-		map['journal'] = journal;
-		map['rating'] = rating;
-		map['tanggal'] = tanggal;
-
-		return map;
-	}
-
-	// Extract object dari Map object
-	Data.fromMapObject(Map<String, dynamic> map) {
-		this.id = map['id'];
-		this.judul = map['judul'];
-		this.journal = map['journal'];
-		this.rating = map['rating'];
-		this.tanggal = map['tanggal'];
-	}
+    Map<String, dynamic> toJson() => {
+        "id": id == null ? null : id,
+        "judul": judul == null ? null : judul,
+        "jurnal": jurnal == null ? null : jurnal,
+        "rating": rating == null ? null : rating,
+        "tanggal": tanggal == null ? null : tanggal,
+        "image": image == null ? null : image,
+    };
 }

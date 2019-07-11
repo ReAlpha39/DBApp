@@ -1,35 +1,32 @@
 import 'dart:async';
 import 'package:coffee_journey/models/data.dart';
-import 'package:coffee_journey/models/database_helper.dart';
+import 'package:coffee_journey/repository/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class FormList extends StatefulWidget {
 
-	final Data data;
+	//final Data data;
 
-	FormList(this.data);
+	//FormList(this.data);
 
 	@override
-  State<StatefulWidget> createState() {
-
-    return FormListState(this.data);
-  }
+  _FormListState createState() => _FormListState();
 }
 
-class FormListState extends State<FormList> {
-  final _formKey = GlobalKey<FormState>();
-
-	DatabaseHelper helper = DatabaseHelper();
-	Data data;
+class _FormListState extends State<FormList> {
+  //final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+	//DatabaseHelper helper = DatabaseHelper();
+	//Data data;
 
   final TextEditingController judulC = TextEditingController();
   final TextEditingController journalC = TextEditingController();
   final TextEditingController ratingC = TextEditingController();
   final TextEditingController tanggalC = TextEditingController();
 
-	FormListState(this.data);
+	//FormListState(this.data);
 
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -37,10 +34,10 @@ class FormListState extends State<FormList> {
       //imageInput.img = image;
     });
   }
-  String judul;
-  String journal;
-  String tanggal;
-  int rating;
+  String _judul;
+  String _journal;
+  String _tanggal;
+  int _rating;
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +61,14 @@ class FormListState extends State<FormList> {
                       TextFormField(
                         decoration: InputDecoration(labelText: "Judul"),
                         onSaved: (value) {
-                          judul = value;
+                          _judul = value;
                         },
                         autocorrect: false,
                         validator: (i) {
                           if (i == '') {
                             return "Judul harus diisi!";
+                          }else{
+                            return null;
                           }
                         },
                         controller: judulC,
@@ -79,20 +78,22 @@ class FormListState extends State<FormList> {
                         minLines: 1,
                         decoration: InputDecoration(labelText: "Journal"),
                         onSaved: (value) {
-                          journal = value;
+                          _journal = value;
                         },
                         controller: journalC,
                         autocorrect: false,
                         validator: (i) {
                           if (i == '') {
                             return "Journal harus diisi!";
+                          }else{
+                            return null;
                           }
                         },
                       ),
                       TextFormField(
                         decoration: InputDecoration(labelText: "Rating"),
                         onSaved: (value) {
-                          rating = int.parse(value);
+                          _rating = int.parse(value);
                         },
                         autocorrect: false,
                         validator: (i) {
@@ -107,6 +108,8 @@ class FormListState extends State<FormList> {
                           }
                           if (int.tryParse(i) < 1) {
                             return "Rating 1 - 5";
+                          }else{
+                            return null;
                           }
                         },
                         controller: ratingC,
@@ -179,17 +182,21 @@ class FormListState extends State<FormList> {
   }
 
   void moveToLastScreen() {
-		Navigator.pop(context, true);
+		Navigator.pop(context);
   }
 	// Save data to database
 	void _save() async {
 
-		moveToLastScreen();
-    data.juduls = judul;
-    data.journals = journal;
-    data.ratings = rating;
-		data.tanggals = DateFormat.yMMMd().format(DateTime.now());
-		await helper.insertData(data);
+    String _tanggal = DateFormat.yMMMd().format(DateTime.now());
+    Data data = Data(judul: _judul, jurnal: _journal, rating: _rating, tanggal: _tanggal);
+    var hasil = await DatabaseProvider().insertData(data);
+    moveToLastScreen();
+    //data.juduls = judul;
+    //data.journals = journal;
+    //data.ratings = rating;
+		//data.tanggals = DateFormat.yMMMd().format(DateTime.now());
+		//await helper.insertData(data);
+
   }
 
 }
