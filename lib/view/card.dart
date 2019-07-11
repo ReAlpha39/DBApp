@@ -28,7 +28,7 @@ class Card1 extends StatelessWidget {
               Expanded(
                 child: Container(
                   child: Deskripsi(judul: judul, journal: journal, rating: rating, tanggal: tanggal,),
-                  constraints: BoxConstraints(minHeight: 180),
+                  constraints: BoxConstraints(minHeight: 200),
                 ),
                 flex: 5,
               ),
@@ -50,10 +50,25 @@ class Card1 extends StatelessWidget {
                             ),
                           ),
                         ),
-                        flex: 2,
+                        flex: 3,
                       ),
                       Expanded(
                         child: icon(rating)
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () {},
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
