@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:coffee_journey/models/data.dart';
 import 'package:coffee_journey/repository/database_provider.dart';
 import 'package:flutter/material.dart';
@@ -27,11 +28,13 @@ class _FormListState extends State<FormList> {
   final TextEditingController tanggalC = TextEditingController();
 
 	//FormListState(this.data);
-
+  String imgString;
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    List<int> imgInt = await image.readAsBytes();
+    imgString = base64Encode(imgInt);
     setState(() {
-      //imageInput.img = image;
+      
     });
   }
   String _judul;
@@ -117,20 +120,21 @@ class _FormListState extends State<FormList> {
                       Container(
                         padding: EdgeInsets.only(top: 20, bottom: 20),
                         child: Center(
-                          child: Image.asset('assets/coffeeHeader.jpg')//mageInput.img == null
-                              //? Text('Tidak ada Gambar dipilih')
-                              //: Image.file(imageInput.img),
+                          child: imgString == null
+                              ? Text('Tidak ada Gambar dipilih')
+                              : Image.memory(base64Decode(imgString)),
                         ),
                       ),
                       RaisedButton(
                           child: Container(
                             width: MediaQuery.of(context).size.width,
                             padding: EdgeInsets.only(left: 8, right: 8),
-                            child: //Center(child: imageInput.img != null
-                             Text('Change Image') //?
-                            //: Text('Add Image')),
+                            child: Center(child: imgString != null
+                              ? Text('Change Image')
+                              : Text('Add Image')),
                           ),
-                          onPressed: getImageFromGallery),
+                          onPressed: getImageFromGallery
+                        ),
                     ]),
                   ),
                 ),
@@ -188,7 +192,7 @@ class _FormListState extends State<FormList> {
 	void _save() async {
 
     String _tanggal = DateFormat.yMMMd().format(DateTime.now());
-    Data data = Data(judul: _judul, jurnal: _journal, rating: _rating, tanggal: _tanggal);
+    Data data = Data(judul: _judul, jurnal: _journal, rating: _rating, tanggal: _tanggal, image: imgString);
     var hasil = await DatabaseProvider().insertData(data);
     moveToLastScreen();
     //data.juduls = judul;

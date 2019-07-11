@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:coffee_journey/view/card.dart';
 import 'package:coffee_journey/view/form.dart';
 import 'package:coffee_journey/view/idCard.dart';
@@ -87,9 +88,9 @@ class _HomeState extends State<Home> {
                               journal: snapshot.data[i].jurnal,
                               rating: snapshot.data[i].rating,
                               tanggal: snapshot.data[i].tanggal,
-                              img: //listInput[reverse(listInput.length, i)].img == null
-                              Image.asset('assets/coffeeHeader.jpg', fit: BoxFit.cover,) //?
-                              //: Image.file(listInput[reverse(listInput.length, i)].img, fit: BoxFit.cover),
+                              img: snapshot.data[i].image == null
+                                ? Image.asset('assets/coffeeHeader.jpg', fit: BoxFit.cover,)
+                                : Image.memory(base64Decode(snapshot.data[i].image))
                             )
                           ],
                         );
