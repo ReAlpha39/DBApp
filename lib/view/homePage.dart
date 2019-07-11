@@ -83,14 +83,87 @@ class _HomeState extends State<Home> {
                           children: <Widget>[
                             Line(), 
                             Timeline(), 
-                            Card1(
-                              judul: snapshot.data[i].judul,
-                              journal: snapshot.data[i].jurnal,
-                              rating: snapshot.data[i].rating,
-                              tanggal: snapshot.data[i].tanggal,
-                              img: snapshot.data[i].image == null
-                                ? Image.asset('assets/coffeeHeader.jpg', fit: BoxFit.cover,)
-                                : Image.memory(base64Decode(snapshot.data[i].image))
+                            Padding(
+                              padding: const EdgeInsets.only(left: 50, top: 15),
+                              child: Container(
+                                decoration: BoxDecoration(boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.brown[100],
+                                      spreadRadius: -3,
+                                      offset: Offset(-3, 3),
+                                      blurRadius: 5)
+                                ]),
+                                child: Card(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Container(
+                                          child: Deskripsi(judul: snapshot.data[i].judul, journal: snapshot.data[i].jurnal, rating: snapshot.data[i].rating, tanggal: snapshot.data[i].tanggal,),
+                                          constraints: BoxConstraints(minHeight: 200),
+                                        ),
+                                        flex: 5,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              right: 7, left: 5, top: 7, bottom: 7),
+                                          height: MediaQuery.of(context).size.height / 4,
+                                          child: Column(
+                                            children: <Widget>[
+                                              Expanded(
+                                                child: Container(
+                                                  color: Colors.brown,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(7),
+                                                    child: Container(
+                                                      constraints: BoxConstraints(maxHeight: 50, minHeight: 50),
+                                                      child: snapshot.data[i].image == null
+                                                        ? Image.asset('assets/coffeeHeader.jpg', fit: BoxFit.cover,)
+                                                        : Image.memory(base64Decode(snapshot.data[i].image))
+                                                    ),
+                                                  ),
+                                                ),
+                                                flex: 3,
+                                              ),
+                                              Expanded(
+                                                child: icon(snapshot.data[i].rating)
+                                              ),
+                                              Expanded(
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                  children: <Widget>[
+                                                    IconButton(
+                                                      icon: Icon(Icons.edit),
+                                                      onPressed: () async {
+                                                        await Navigator.push(context, MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return FormList();
+                                                          }
+                                                        ));
+                                                      },
+                                                    ),
+                                                    IconButton(
+                                                      icon: Icon(Icons.delete),
+                                                      onPressed: () async {
+                                                        await DatabaseProvider().deleteData(snapshot.data[i].id);
+                                                        setState(() {
+                                                          
+                                                        });
+                                                      }
+                                                      
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        flex: 3,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                             )
                           ],
                         );
@@ -123,6 +196,22 @@ class _HomeState extends State<Home> {
 
   void navigateToDetail() async {
 	  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList()));
+  }
+
+    Widget icon(int index){
+    Widget iconRating;
+    if(index == 1){
+      iconRating = IconRating1();
+    }else if (index == 2){
+     iconRating = IconRating2();
+    }else if(index == 3){
+      iconRating = IconRating3();
+    }else if(index == 4){
+      iconRating = IconRating4();
+    }else if (index == 5){
+      iconRating = IconRating5();
+    }
+    return iconRating;
   }
 }
 

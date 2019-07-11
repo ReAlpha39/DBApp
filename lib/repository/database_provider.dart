@@ -40,9 +40,9 @@ class DatabaseProvider {
     return hasil;
   }
   //delete
-  Future<int> deleteData(Data data) async {
+  Future<int> deleteData(int id) async {
     var db = await getDB();
-    int hasil = await db.delete("listJourney", where: 'id = id', whereArgs: [data.id]);
+    int hasil = await db.delete("listJourney", where: 'id = $id');
     return hasil;
   }
 
