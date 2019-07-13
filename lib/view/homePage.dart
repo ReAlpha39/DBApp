@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
                                                       child: Container(
                                                         constraints: BoxConstraints(maxHeight: 50, minHeight: 50),
                                                         child: snapshot.data[i].image == null
-                                                          ? Image.asset('assets/coffeeHeader.jpg', fit: BoxFit.cover,)
+                                                          ? Image.asset('assets/noimage.png', fit: BoxFit.cover,)
                                                           : Image.memory(base64Decode(snapshot.data[i].image))
                                                       ),
                                                     ),
