@@ -160,9 +160,17 @@ class _FormListState extends State<FormList> {
                     RaisedButton(
                         child: Text('Reset'),
                         onPressed: () {
-                          judulC.clear();
-                          journalC.clear();
-                          ratingC.clear();
+                          if (widget.dataUpdate.id != null){
+                            judulC.text = widget.dataUpdate.judul;
+                            journalC.text = widget.dataUpdate.jurnal;
+                            ratingC.text = widget.dataUpdate.rating.toString();
+                            imgString = widget.dataUpdate.image;
+                          }else{
+                            judulC.clear();
+                            journalC.clear();
+                            ratingC.clear();
+                            imgString = null;
+                          }
                           setState(() {
                             //imageInput.img = null;
                             });
@@ -192,6 +200,16 @@ class _FormListState extends State<FormList> {
             )
           ],
         ));
+  }
+
+    void initState() {
+    if(widget.dataUpdate.id != null){
+      judulC.text = widget.dataUpdate.judul;
+      journalC.text = widget.dataUpdate.jurnal;
+      ratingC.text = widget.dataUpdate.rating.toString();
+      imgString = widget.dataUpdate.image;
+      super.initState();
+    }
   }
 
   void updateInput(){
