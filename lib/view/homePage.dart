@@ -122,7 +122,7 @@ class _HomeState extends State<Home> {
                                                       onPressed: () async {
                                                         var tes = snapshot.data[i];
                                                         print(tes);
-                                                        await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList(snapshot.data[i])));
+                                                        await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList(snapshot.data[i], 'Edit Journal')));
                                                         setState(() {
                                                           
                                                         });
@@ -174,14 +174,9 @@ class _HomeState extends State<Home> {
 	    ),
     );
   }
-  
-  int reverse(int index, int rev){
-    var balik = index - rev -1;
-    return balik;
-  }
 
   void navigateToDetail() async {
-	  await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList(Data())));
+	  await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList(Data(), 'Add Journal')));
   }
 
     Widget icon(int index){

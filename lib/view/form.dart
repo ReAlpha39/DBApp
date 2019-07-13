@@ -9,8 +9,9 @@ import 'package:intl/intl.dart';
 class FormList extends StatefulWidget {
 
 	final Data dataUpdate;
+  final String title;
 
-	FormList(this.dataUpdate);
+	FormList(this.dataUpdate, this.title);
 
 	@override
   _FormListState createState() => _FormListState();
@@ -40,7 +41,7 @@ class _FormListState extends State<FormList> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.brown,
-          title: Text("Add Coffee Journal"),
+          title: Text(widget.title),
         ),
         body: Stack(
           children: <Widget>[
