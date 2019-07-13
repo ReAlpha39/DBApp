@@ -8,9 +8,9 @@ import 'package:intl/intl.dart';
 
 class FormList extends StatefulWidget {
 
-	//final Data data;
+	final Data dataUpdate;
 
-	//FormList(this.data);
+	FormList(this.dataUpdate);
 
 	@override
   _FormListState createState() => _FormListState();
@@ -21,11 +21,11 @@ class _FormListState extends State<FormList> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 	//DatabaseHelper helper = DatabaseHelper();
 	//Data data;
-
-  final TextEditingController judulC = TextEditingController();
-  final TextEditingController journalC = TextEditingController();
-  final TextEditingController ratingC = TextEditingController();
-  final TextEditingController tanggalC = TextEditingController();
+  
+  TextEditingController judulC = TextEditingController();
+  TextEditingController journalC = TextEditingController();
+  TextEditingController ratingC = TextEditingController();
+  TextEditingController tanggalC = TextEditingController();
 
 	//FormListState(this.data);
   String imgString;
@@ -39,11 +39,18 @@ class _FormListState extends State<FormList> {
   }
   String _judul;
   String _journal;
-  String _tanggal;
+  //String _tanggal;
   int _rating;
-
   @override
   Widget build(BuildContext context) {
+    var tes = widget.dataUpdate;
+    print(tes);
+    //if(widget.data.id != null){
+    //  judulC.text = widget.data.judul;
+    //  journalC.text = widget.data.jurnal;
+    //  ratingC.text = widget.data.rating.toString();
+    //}
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.brown,
@@ -64,7 +71,8 @@ class _FormListState extends State<FormList> {
                       TextFormField(
                         decoration: InputDecoration(labelText: "Judul"),
                         onSaved: (value) {
-                          _judul = value;
+                          //_judul = value;
+                          updateInput();
                         },
                         autocorrect: false,
                         validator: (i) {
@@ -96,7 +104,8 @@ class _FormListState extends State<FormList> {
                       TextFormField(
                         decoration: InputDecoration(labelText: "Rating"),
                         onSaved: (value) {
-                          _rating = int.parse(value);
+                          //_rating = int.parse(value);
+                          updateRating();
                         },
                         autocorrect: false,
                         validator: (i) {
@@ -185,16 +194,32 @@ class _FormListState extends State<FormList> {
         ));
   }
 
+  void updateInput(){
+    _judul = judulC.text;
+  }
+
+  void updateRating(){
+    _rating = int.parse(ratingC.text);
+    print(_rating);
+  }
+
   void moveToLastScreen() {
 		Navigator.pop(context);
   }
 	// Save data to database
 	void _save() async {
-
-    String _tanggal = DateFormat.yMMMd().format(DateTime.now());
-    Data data = Data(judul: _judul, jurnal: _journal, rating: _rating, tanggal: _tanggal, image: imgString);
-    var hasil = await DatabaseProvider().insertData(data);
     moveToLastScreen();
+    String _tanggal = DateFormat.yMMMd().format(DateTime.now());
+    Data data = Data(id: widget.dataUpdate.id, judul: _judul, jurnal: _journal, rating: _rating, tanggal: _tanggal, image: imgString);
+    print('id sebelah = ' + widget.dataUpdate.id.toString());
+    print('id sekarang = ' + data.id.toString());
+    var hasil;
+    if(widget.dataUpdate.id == null){
+      hasil = await DatabaseProvider().insertData(data);
+    }else{
+      hasil = await DatabaseProvider().updateData(data);
+    }
+    
     //data.juduls = judul;
     //data.journals = journal;
     //data.ratings = rating;

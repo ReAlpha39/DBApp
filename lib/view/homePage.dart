@@ -135,11 +135,12 @@ class _HomeState extends State<Home> {
                                                     IconButton(
                                                       icon: Icon(Icons.edit),
                                                       onPressed: () async {
-                                                        await Navigator.push(context, MaterialPageRoute(
-                                                          builder: (context) {
-                                                            return FormList();
-                                                          }
-                                                        ));
+                                                        var tes = snapshot.data[i];
+                                                        print(tes);
+                                                        await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList(snapshot.data[i])));
+                                                        setState(() {
+                                                          
+                                                        });
                                                       },
                                                     ),
                                                     IconButton(
@@ -195,7 +196,7 @@ class _HomeState extends State<Home> {
   }
 
   void navigateToDetail() async {
-	  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList()));
+	  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList(Data())));
   }
 
     Widget icon(int index){
