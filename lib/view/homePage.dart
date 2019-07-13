@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:coffee_journey/view/card.dart';
 import 'package:coffee_journey/view/form.dart';
@@ -7,8 +6,6 @@ import 'package:coffee_journey/models/data.dart';
 import 'package:coffee_journey/repository/database_provider.dart';
 import 'package:coffee_journey/view/timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-
 
 class Home extends StatefulWidget {
 
@@ -17,21 +14,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-	//DatabaseHelper databaseHelper = DatabaseHelper();
-	//List<Data> dataList;
-	//int count = 0;
-
 	@override
   Widget build(BuildContext context) {
-
-		//if (dataList == null) {
-		//	dataList = List<Data>();
-		//	updateListView();
-		//}
-
     return Scaffold(
-
 	    appBar: AppBar(
 		    actions: <Widget>[
           Padding(
@@ -196,7 +181,7 @@ class _HomeState extends State<Home> {
   }
 
   void navigateToDetail() async {
-	  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList(Data())));
+	  await Navigator.push(context, MaterialPageRoute(builder: (context) => FormList(Data())));
   }
 
     Widget icon(int index){

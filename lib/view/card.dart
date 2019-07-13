@@ -1,7 +1,3 @@
-import 'package:coffee_journey/models/data.dart';
-import 'package:coffee_journey/repository/database_provider.dart';
-import 'package:coffee_journey/view/form.dart';
-//import 'package:coffee_journey/models/listData.dart';
 import 'package:flutter/material.dart';
 
 class IconRating1 extends StatelessWidget {

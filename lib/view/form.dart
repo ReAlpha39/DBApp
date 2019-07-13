@@ -17,17 +17,12 @@ class FormList extends StatefulWidget {
 }
 
 class _FormListState extends State<FormList> {
-  //final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-	//DatabaseHelper helper = DatabaseHelper();
-	//Data data;
   
   TextEditingController judulC = TextEditingController();
   TextEditingController journalC = TextEditingController();
   TextEditingController ratingC = TextEditingController();
   TextEditingController tanggalC = TextEditingController();
-
-	//FormListState(this.data);
   String imgString;
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -39,18 +34,9 @@ class _FormListState extends State<FormList> {
   }
   String _judul;
   String _journal;
-  //String _tanggal;
   int _rating;
   @override
   Widget build(BuildContext context) {
-    var tes = widget.dataUpdate;
-    print(tes);
-    //if(widget.data.id != null){
-    //  judulC.text = widget.data.judul;
-    //  journalC.text = widget.data.jurnal;
-    //  ratingC.text = widget.data.rating.toString();
-    //}
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.brown,
@@ -71,8 +57,7 @@ class _FormListState extends State<FormList> {
                       TextFormField(
                         decoration: InputDecoration(labelText: "Judul"),
                         onSaved: (value) {
-                          //_judul = value;
-                          updateInput();
+                          _judul = value;
                         },
                         autocorrect: false,
                         validator: (i) {
@@ -104,8 +89,7 @@ class _FormListState extends State<FormList> {
                       TextFormField(
                         decoration: InputDecoration(labelText: "Rating"),
                         onSaved: (value) {
-                          //_rating = int.parse(value);
-                          updateRating();
+                          _rating = int.parse(value);
                         },
                         autocorrect: false,
                         validator: (i) {
@@ -171,9 +155,7 @@ class _FormListState extends State<FormList> {
                             ratingC.clear();
                             imgString = null;
                           }
-                          setState(() {
-                            //imageInput.img = null;
-                            });
+                          setState(() {});
                         }),
                     RaisedButton(
                       child: Text("Cancel"),
@@ -191,7 +173,6 @@ class _FormListState extends State<FormList> {
                           _save();
                           });
                         }
-                        //form.validate();
                       },
                     ),
                   ],
@@ -201,8 +182,7 @@ class _FormListState extends State<FormList> {
           ],
         ));
   }
-
-    void initState() {
+  void initState() {
     if(widget.dataUpdate.id != null){
       judulC.text = widget.dataUpdate.judul;
       journalC.text = widget.dataUpdate.jurnal;
@@ -210,15 +190,6 @@ class _FormListState extends State<FormList> {
       imgString = widget.dataUpdate.image;
       super.initState();
     }
-  }
-
-  void updateInput(){
-    _judul = judulC.text;
-  }
-
-  void updateRating(){
-    _rating = int.parse(ratingC.text);
-    print(_rating);
   }
 
   void moveToLastScreen() {
@@ -231,29 +202,12 @@ class _FormListState extends State<FormList> {
     Data data = Data(id: widget.dataUpdate.id, judul: _judul, jurnal: _journal, rating: _rating, tanggal: _tanggal, image: imgString);
     print('id sebelah = ' + widget.dataUpdate.id.toString());
     print('id sekarang = ' + data.id.toString());
-    var hasil;
     if(widget.dataUpdate.id == null){
-      hasil = await DatabaseProvider().insertData(data);
+      await DatabaseProvider().insertData(data);
     }else{
-      hasil = await DatabaseProvider().updateData(data);
+      await DatabaseProvider().updateData(data);
     }
-    
-    //data.juduls = judul;
-    //data.journals = journal;
-    //data.ratings = rating;
-		//data.tanggals = DateFormat.yMMMd().format(DateTime.now());
-		//await helper.insertData(data);
 
   }
 
 }
-
-
-
-
-
-
-
-
-
-
