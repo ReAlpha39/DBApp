@@ -27,11 +27,11 @@ class _FormListState extends State<FormList> {
   String imgString;
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    List<int> imgInt = await image.readAsBytes();
-    imgString = base64Encode(imgInt);
-    setState(() {
-      
-    });
+    if (image != null){
+      List<int> imgInt = await image.readAsBytes();
+      imgString = base64Encode(imgInt);
+      setState(() {});
+    }
   }
   String _judul;
   String _journal;
