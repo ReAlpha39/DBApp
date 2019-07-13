@@ -57,7 +57,11 @@ class _FormListState extends State<FormList> {
                     child: Column(children: <Widget>[
                       TextFormField(
                         maxLength: 15,
-                        decoration: InputDecoration(labelText: "Judul"),
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(fontSize: 10),
+                          labelText: "Judul",
+                          hintText: "Tuliskan judul"
+                        ),
                         onSaved: (value) {
                           _judul = value;
                         },
@@ -75,7 +79,11 @@ class _FormListState extends State<FormList> {
                         maxLength: 400,
                         maxLines: 7,
                         minLines: 1,
-                        decoration: InputDecoration(labelText: "Journal"),
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(fontSize: 10),
+                          hintText: "Tuliskan ulasan saat ini",
+                          labelText: "Journal"
+                        ),
                         onSaved: (value) {
                           _journal = value;
                         },
@@ -192,6 +200,8 @@ class _FormListState extends State<FormList> {
       ratingC.text = widget.dataUpdate.rating.toString();
       imgString = widget.dataUpdate.image;
       super.initState();
+    }else{
+      ratingC.text = "0";
     }
   }
 
