@@ -56,6 +56,7 @@ class _FormListState extends State<FormList> {
                     padding: EdgeInsets.all(8),
                     child: Column(children: <Widget>[
                       TextFormField(
+                        maxLength: 15,
                         decoration: InputDecoration(labelText: "Judul"),
                         onSaved: (value) {
                           _judul = value;
@@ -71,6 +72,7 @@ class _FormListState extends State<FormList> {
                         controller: judulC,
                       ),
                       TextFormField(
+                        maxLength: 400,
                         maxLines: 7,
                         minLines: 1,
                         decoration: InputDecoration(labelText: "Journal"),
