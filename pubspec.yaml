@@ -50,13 +50,6 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
   - assets/coffeeHeader.jpg
-  - assets/kp1.jpg
-  - assets/kp2.jpg
-  - assets/kp3.jpg
-  - assets/kp4.jpg
-  - assets/kp5.jpg
-  - assets/kp6.jpg
-  - assets/kp7.jpg
   - assets/noimage.png
   
   # An image asset can refer to one or more resolution-specific "variants", see
