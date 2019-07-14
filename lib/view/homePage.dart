@@ -95,7 +95,7 @@ class _HomeState extends State<Home> {
                                           child: Container(
                                             padding: const EdgeInsets.only(
                                                 right: 7, left: 5, top: 7, bottom: 7),
-                                            height: MediaQuery.of(context).size.height / 4,
+                                            constraints: BoxConstraints(maxHeight: 185),
                                             child: Column(
                                               children: <Widget>[
                                                 Expanded(
@@ -104,10 +104,15 @@ class _HomeState extends State<Home> {
                                                     child: Padding(
                                                       padding: const EdgeInsets.all(7),
                                                       child: Container(
-                                                        constraints: BoxConstraints(maxHeight: 50, minHeight: 50),
+                                                        constraints: BoxConstraints(
+                                                          maxHeight: 150,
+                                                          minHeight: 150,
+                                                          maxWidth: 150,
+                                                          minWidth: 150
+                                                        ),
                                                         child: snapshot.data[i].image == null
                                                           ? Image.asset('assets/noimage.png', fit: BoxFit.cover,)
-                                                          : Image.memory(base64Decode(snapshot.data[i].image))
+                                                          : Image.memory(base64Decode(snapshot.data[i].image), fit: BoxFit.cover,)
                                                       ),
                                                     ),
                                                   ),
