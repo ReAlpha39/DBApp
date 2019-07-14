@@ -133,9 +133,15 @@ class _FormListState extends State<FormList> {
                           child: Container(
                             width: MediaQuery.of(context).size.width,
                             padding: EdgeInsets.only(left: 8, right: 8),
-                            child: Center(child: imgString != null
-                              ? Text('Change Image')
-                              : Text('Add Image')),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.image),
+                                Center(child: imgString != null
+                                  ? Text(' Change Image')
+                                  : Text(' Add Image')),
+                              ],
+                            ),
                           ),
                           onPressed: getImageFromGallery
                         ),
@@ -153,7 +159,13 @@ class _FormListState extends State<FormList> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     RaisedButton(
-                        child: Text('Reset'),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(Icons.restore),
+                            Text(' Reset'),
+                          ],
+                        ),
                         onPressed: () {
                           if (widget.dataUpdate.id != null){
                             judulC.text = widget.dataUpdate.judul;
@@ -169,13 +181,25 @@ class _FormListState extends State<FormList> {
                           setState(() {});
                         }),
                     RaisedButton(
-                      child: Text("Cancel"),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.cancel),
+                          Text(" Cancel"),
+                        ],
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
                     RaisedButton(
-                      child: Text("Save"),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.save),
+                          Text(" Save"),
+                        ],
+                      ),
                       onPressed: () {
                         var form = _formKey.currentState;
                         if (_formKey.currentState.validate()) {
@@ -211,7 +235,7 @@ class _FormListState extends State<FormList> {
 	// Save data to database
 	void _save() async {
     moveToLastScreen();
-    String _tanggal = DateFormat.yMMMd().format(DateTime.now());
+    String _tanggal = DateFormat('yyyy-MM-dd hh:mm').format(DateTime.now());
     Data data = Data(id: widget.dataUpdate.id, judul: _judul, jurnal: _journal, rating: _rating, tanggal: _tanggal, image: imgString);
     print('id sebelah = ' + widget.dataUpdate.id.toString());
     print('id sekarang = ' + data.id.toString());
