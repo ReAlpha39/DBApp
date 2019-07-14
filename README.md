@@ -1,6 +1,6 @@
-# coffee_journey
+# DBApp
 
-A new Flutter project.
+A Flutter test app
 
 ## Getting Started
 
